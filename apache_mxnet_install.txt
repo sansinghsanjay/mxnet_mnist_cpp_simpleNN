@@ -1,0 +1,21 @@
+# Run the following command to install the dependencies of Apache MXNet:
+	$ sudo apt-get install -y build-essential git ninja-build ccache libopenblas-dev libopencv-dev cmake
+	Also install gfortran (it is optional but better to have).
+# Visit the following page:
+	https://mxnet.apache.org/versions/1.8.0/get_started/?
+	> Click on the word hyperlink word "here" given in sentence "The signed source releases are available here"
+	> From there, you can download the Apache MXNet source code. When I clicked on the download link against v1.8.0, nothing started. Thus, I clicked on the downlod link against v1.7.0 and it worked. So I have downloaded the source code of v1.7.0.
+# After downloading the source code, untar the downloaded compressed file. Following is the command:
+	$ tar -xf apache-mxnet-src-1.7.0-incubating.tar.gz
+	Then,
+		$ cd apache-mxnet-src-1.7.0-incubating/
+		$ mkdir build
+	Then, follow the instructions given below to build the Apache MXNet from the downloaded source code (these instructions are taken from https://mxnet.apache.org/versions/1.5.0/install/c_plus_plus.html and then modified):
+		> If you don't have GPU in your system, then remove other options from the cmake command given on the official page and run only the following command:
+			$ cmake -DUSE_CPP_PACKAGE=1 -GNinja ..
+			$ ninja -v -j <NO_OF_CPU_CORES>
+		<NO_OF_CPU_CORES> can be checked by running the command: $ lscpu
+		To get the <NO_OF_CPU_CORES>, simply multiply the "CPU(s)" with "Core(s) per socket". In my case, it was 4 and 4, thus 4 x 4 = 16 cores. Close every other application, turn off the Internet and use all cores of your system to quickly complete the build process.
+# After successful completion of build, you can run the following command to install Apache MXNet in the system:
+	$ ninja install
+	Above command will copy all the generated .so files to the right location in the system.
