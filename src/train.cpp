@@ -49,19 +49,44 @@ Symbol mlp(const vector<int> &layers) {
 
 // MAIN function
 int main() {
+	/* Context:
+	MXNet can run operations on CPU and different GPUs.
+	A Context describes the device type and ID on which
+	computation should be carried on.*/
 	Context ctx = Context::cpu();
 	// creating data iter
 	cout<<"Creating data iter to load the MNIST dataset"<<endl;
+	/* vector:
+	Vectors are same as dynamic arrays with the ability to resize automatically
+	when an element is inserted or deleted, with their storage being handled
+	automatically by the container. Vector elements are placed in contiguous
+	storage so that they can be accessed and traversed using iterators. In
+	vectors, data is inserted at the end.*/
 	vector<string> data_files = {
 		"./../dataset/mnist_data/train-images.idx3-ubyte",
 		"./../dataset/mnist_data/train-labels.idx1-ubyte",
 		"./../dataset/mnist_data/t10k-images.idx3-ubyte",
 		"./../dataset/mnist_data/t10k-labels.idx1-ubyte"
 	};
+	/* auto:
+	*Type Inference refers to automatic deduction of the data type of an
+	expression in a programming language. Before C++ 11, each data type
+	needs to be explicitly declared at compile time, limiting the values
+	of an expression at runtime but after the new version of C++, many
+	keywords are included which allows a programmer to leave the type
+	deduction to the compiler itself.
+	With type inference capabilities, we can spend less time having to
+	write out things compiler already knows. As all the types are deduced
+	in compiler phase only, the time for compilation increases slightly
+	but it does not affect the run time of the program.*/
 	auto train_iter = MXDataIter("MNISTIter");
 	setDataIter(&train_iter, "Train", data_files, BATCH_SIZE);
 	auto val_iter = MXDataIter("MNISTIter");
 	setDataIter(&val_iter, "Label", data_files, BATCH_SIZE);
+	/* map:
+	Maps are associative containers that store elements in a mapped fashion.
+	Each element has a key value and a mapped value. No two mapped values
+	can have same key values.*/
 	map<string, NDArray> args;
 	auto net = mlp(layers);
 	args["X"] = NDArray(Shape(BATCH_SIZE, IMAGE_SIZE * IMAGE_SIZE), ctx);
